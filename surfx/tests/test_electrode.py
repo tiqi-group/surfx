@@ -26,7 +26,7 @@ import unittest
 import numpy as np
 from numpy import testing as nptest
 
-from electrode import utils, electrode, system
+from surfx import utils, electrode, system
 
 
 class CoverCase(unittest.TestCase):

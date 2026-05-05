@@ -22,7 +22,7 @@
 # <codecell>
 
 import matplotlib.pyplot as plt, numpy as np, scipy.constants as ct
-from electrode import (System, PolygonPixelElectrode, euler_matrix,
+from surfx import (System, PolygonPixelElectrode, euler_matrix,
     PointPixelElectrode, PotentialObjective,
     PatternRangeConstraint, shaped)
 

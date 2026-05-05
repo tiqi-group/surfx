@@ -1,0 +1,16 @@
+{
+  "python.defaultInterpreterPath": "/Users/zuriq/qfun/surfx/.venv/bin/python",
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.ruff": "explicit",
+      "source.organizeImports.ruff": "explicit"
+    }
+  },
+  "ruff.enable": true,
+  "ruff.path": [
+    "/Users/zuriq/qfun/surfx/.venv/bin/ruff"
+  ],
+  "autoDocstring.docstringFormat": "google",
+}

@@ -17,24 +17,26 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import (absolute_import, print_function,
-        unicode_literals, division)
-
 import numpy as np
 
-# qualitative color map
-# http://colorbrewer2.org/index.php?type=qualitative&scheme=Set3&n=12
-set3 = np.array([
-    [141, 211, 199],
-    [255, 255, 179],
-    [190, 186, 218],
-    [251, 128, 114],
-    [128, 177, 211],
-    [253, 180,  98],
-    [179, 222, 105],
-    [252, 205, 229],
-    [217, 217, 217],
-    [188, 128, 189],
-    [204, 235, 197],
-    [255, 237, 111], 
-    ])
+from .system import System
+from .electrode import PolygonPixelElectrode
+
+
+def xic_to_list(xic):
+    es = []
+    for line in xic:
+        line = line.rstrip()
+        if line[0] == "P":
+            p = [line.split()[1:]]
+        elif line[0] == " ":
+            if not line.endswith(";"):
+                p.append(line.split())
+            else:
+                p.append(line[:-1].split())
+                es.append(np.array([map(float, i) for i in p])*1e-8)
+        elif not line.strip():
+            pass
+        else:
+            pass # print line
+    return es

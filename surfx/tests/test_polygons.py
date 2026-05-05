@@ -34,10 +34,10 @@ from scipy import constants as ct
 import numpy as np
 from numpy import testing as nptest
 
-from electrode import electrode, system
+from surfx import electrode, system
 
 try:
-    from electrode import polygons
+    from surfx import polygons
 except ImportError:
     polygons = None
 

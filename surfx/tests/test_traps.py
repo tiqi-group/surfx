@@ -34,7 +34,7 @@ from scipy import constants as ct
 import numpy as np
 from numpy import testing as nptest
 
-from electrode import (transformations, utils, electrode, system,
+from surfx import (transformations, utils, electrode, system,
     pattern_constraints)
 
 

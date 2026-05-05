@@ -193,8 +193,6 @@ True
 
 """
 
-from __future__ import division, print_function
-
 import math
 
 import numpy
@@ -1921,8 +1919,6 @@ def _import_module(name, package=None, warn=True, prefix='_py_', ignore='_'):
             globals()[attr] = getattr(module, attr)
         return True
 
-
-_import_module('_transformations', package='electrode')
 
 if __name__ == "__main__":
     import doctest

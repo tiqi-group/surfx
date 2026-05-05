@@ -26,3 +26,4 @@
 __pycache__
 *.gds
 /examples/.ipynb_checkpoints
+/.python-version

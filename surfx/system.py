@@ -17,9 +17,6 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import (absolute_import, print_function,
-        unicode_literals, division)
-
 import warnings, itertools
 from contextlib import contextmanager
 import logging
@@ -60,7 +57,6 @@ from .utils import (expand_tensor, norm, rotate_tensor,
     mathieu, name_to_deriv)
 from .pattern_constraints import (PatternRangeConstraint,
         PotentialObjective)
-from . import colors
 
 
 logger = logging.getLogger("electrode")
@@ -855,8 +851,8 @@ class System(list):
         trap = self.minimum(x)
         yield " minimum is at offset: %s" % (trap - x,)
         yield "                      (%s µm)" % ((trap - x)*l/1e-6,)
-        p_dc = self.electrical_potential(x, "dc", 0)[0]
-        p_rf = self.pseudo_potential(x, 0)[0]
+        p_dc = float(self.electrical_potential(x, "dc", 0).ravel()[0])
+        p_rf = float(self.pseudo_potential(x, 0).ravel()[0])
         yield "potential:"
         yield " dc electrical: %.2g eV" % p_dc
         yield " rf pseudo: %.2g eV" % p_rf

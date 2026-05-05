@@ -18,13 +18,10 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import (absolute_import, print_function,
-        unicode_literals, division)
-
 import numpy as np
 
 
-def rfo(fun, grad, x0, args=(), 
+def rfo(fun, grad, x0, args=(),
         xtol=1e-4, ftol=1e-4, maxiter=200, dx_max=1., h=None, cb=None):
     """Rational function optimization with approximate hessian.
 
@@ -36,31 +33,23 @@ def rfo(fun, grad, x0, args=(),
     121, 20, (2004).
     """
 
-    x = np.matrix(x0).T.copy()
-    f = fun(np.array(x).ravel())
-    g = np.matrix(grad(np.array(x).ravel())).T
+    x = np.array(x0, dtype=float).reshape(-1, 1)
+    f = fun(x.ravel())
+    g = np.array(grad(x.ravel()), dtype=float).reshape(-1, 1)
     if h is None:
-        h = np.matrix(np.identity(x.size))
+        h = np.eye(x.size)
     else:
-        h = np.matrix(h)
+        h = np.array(h, dtype=float)
 
-    d = np.ones((x.size,))
+    d = np.ones(x.size)
     d[0] *= -1
 
     it = 0
-
     ret = None
 
     while True:
-
         it += 1
 
-        #print "i", it
-        #print "x", x
-        #print "f", f
-        #print "g", g
-        #print "h", h
-        #print
         if cb is not None:
             cb(x, f, g, h)
         if ret:
@@ -68,29 +57,30 @@ def rfo(fun, grad, x0, args=(),
 
         l, v = np.linalg.eigh(h)
         i = np.argsort(l)
-        l, v = l[i], v[i]
-        v = np.matrix(v)
+        l, v = l[i], v[:, i]
 
-        gl = np.array(v.T*g).ravel()
-        lmg = .5*d*(abs(l) + np.sqrt(l**2 + 4*gl**2))
+        gl = (v.T @ g).ravel()
+        lmg = .5 * d * (abs(l) + np.sqrt(l**2 + 4*gl**2))
 
-        dx = -v*np.matrix(gl/lmg).T
-        dx /= max(1., np.linalg.norm(dx)/dx_max)
-        df = fun(np.array(x + dx).ravel()) - f
-        dg = np.matrix(grad(np.array(x + dx).ravel())).T - g
-        dp = dg - h*dx
-        dh_powell = (dp*dx.T + dx*dp.T)/(dx.T*dx) - \
-                float(dp.T*dx)*(dx*dx.T)/(dx.T*dx)**2
-        dh_sr1 = (dp*dp.T)/(dp.T*dx)
-        phi = float((dp.T*dx)**2/((dp.T*dp)*(dx.T*dx)))
-        dh_bofill = phi*dh_sr1 + (1-phi)*dh_powell
+        dx = -(v @ (gl / lmg).reshape(-1, 1))
+        dx /= max(1., np.linalg.norm(dx) / dx_max)
+        df = fun((x + dx).ravel()) - f
+        dg = np.array(grad((x + dx).ravel()), dtype=float).reshape(-1, 1) - g
+        dp = dg - h @ dx
+
+        dTx = (dp.T @ dx).item()
+        xTx = (dx.T @ dx).item()
+        dh_powell = (dp @ dx.T + dx @ dp.T) / xTx - dTx * (dx @ dx.T) / xTx**2
+        dh_sr1 = (dp @ dp.T) / dTx
+        phi = dTx**2 / ((dp.T @ dp).item() * xTx)
+        dh_bofill = phi * dh_sr1 + (1 - phi) * dh_powell
         dh = dh_bofill
 
-        if 2.*np.linalg.norm(dx) <= xtol * (
-                np.linalg.norm(x+dx) + np.linalg.norm(x) + 1e-20):
+        if 2. * np.linalg.norm(dx) <= xtol * (
+                np.linalg.norm(x + dx) + np.linalg.norm(x) + 1e-20):
             ret = "xtol"
 
-        if 2.*np.abs(df) <= ftol * (abs(f+df) + abs(f) + 1e-20):
+        if 2. * np.abs(df) <= ftol * (abs(f + df) + abs(f) + 1e-20):
             ret = "ftol"
 
         if maxiter > 0 and it > maxiter:
@@ -101,7 +91,7 @@ def rfo(fun, grad, x0, args=(),
         g += dg
         h += dh
 
-    return np.array(x).ravel(), f, ret
+    return x.ravel(), f, ret
 
 
 if __name__ == "__main__":

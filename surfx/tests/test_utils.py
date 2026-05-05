@@ -24,9 +24,16 @@ import unittest
 
 import numpy as np
 from numpy import testing as nptest
-from scipy.special import sph_harm
+try:
+    from scipy.special import sph_harm_y as _sph_harm_y
+    def sph_harm(m, n, theta, phi):
+        # old: theta=azimuthal [0,2pi], phi=polar [0,pi]
+        # new: theta=polar [0,pi], phi=azimuthal [0,2pi]
+        return _sph_harm_y(n, m, phi, theta)
+except ImportError:
+    from scipy.special import sph_harm
 
-from electrode import transformations, utils, electrode
+from surfx import transformations, utils, electrode
 
 
 class BasicFunctionsCase(unittest.TestCase):
