@@ -23,11 +23,10 @@ jobs:
       - name: Install dependencies
         run: |
           pipx install uv
-          mkdir test-env
-          cd test-env
-          uv init
-          uv add surfx @ git+https://github.com/tiqi-group/surfx.git
-          uv add pytest
+          ls
+          # uv init
+          # uv add surfx @ git+https://github.com/tiqi-group/surfx.git
+          # uv add pytest
 
       - name: Run tests
         run: pytest surfx/tests/ -v
