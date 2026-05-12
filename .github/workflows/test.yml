@@ -23,8 +23,8 @@ jobs:
       - name: Install dependencies
         run: |
           pipx install uv
-          uv add .
-          uv add pytest
+          # uv add .
+          # uv add pytest
 
       - name: Run tests
-        run: pytest electrode/tests/ -v
+        run: pytest surfx/tests/ -v
