@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
 
     steps:
       - uses: actions/checkout@v4
@@ -22,9 +22,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install ".[optimization,polygons]"
-          pip install pytest
+          pipx install uv
+          uv add .
+          uv add pytest
 
       - name: Run tests
         run: pytest electrode/tests/ -v
