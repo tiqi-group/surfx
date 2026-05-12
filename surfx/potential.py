@@ -1,7 +1,7 @@
 import numpy as np
 
-from ._delete.utils import expand_tensor
-from .expressions import polygon_potential
+from surfx.expressions import polygon_potential
+from surfx.utils import expand_tensor
 
 
 def _positions(x, y, z):
