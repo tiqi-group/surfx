@@ -1,9 +1,8 @@
-.. image:: https://travis-ci.org/nist-ionstorage/electrode.svg?branch=master
-  :target: https://travis-ci.org/nist-ionstorage/electrode
+=====
+Forked from NIST electrode package https://github.com/nist-ionstorage/electrode. Simplified to be used only to compute polygon potentials.
+For potential optimisation, see pytrans https://github.com/tiqi-group/pytrans. 
 
-.. image:: https://zenodo.org/badge/doi/10.5281/zenodo.10118.png
-  :target: https://zenodo.org/record/10118
-
+Original author: Robert Jordens <jordens@phys.ethz.ch>
 
 Description
 ===========
@@ -41,66 +40,8 @@ http://dx.doi.org/10.1109/TBME.1983.325207
 electrostatics. European Journal of Physics 22:31 (2001).
 http://dx.doi.org/10.1088/0143-0807/22/1/304
 
+Recommended installation is with uv.
 
-
-Dependencies
-============
-
-Debian based GNU/Linuxes
-------------------------
-
-    # apt-get install python-cvxopt python-numpy python-matplotlib \
-                      python-scipy python-traits python-shapely
-
-to use the ipython based notebooks, try
-
-    # apt-get install ipython-notebook
-
-
-Usage
-=====
-
-Running console scripts
------------------------
-
-The tutorial contains two examples of surface electrode traps (five_wire
-and threefold). The relevant code can be all pasted into a Python script
-(five_wire.py) or IPython notebook (see below) and executed.
-
-Without installing anything
-...........................
-
-Use e.g.:
-
-    $ PYTHONPATH=. python your_script.py
-
-to run a script without instaling the electrode package.
-
-
-Keeping the package files editable
-..................................
-
-    # python setup.py develop
-
-installs the package into your python tree such that it can be imported
-from any script anywhere on your system. It only creates links from
-your python tree to this development tree and changes in the package
-immediately become visible.
-
-
-Full installation
-.................
-
-    # python setup.py install
-
-installs the package in your python tree by copying and compiling the
-files. After this, changes to the package files in this development tree
-become only visible if you install the package again.
-
-
-Runing the notebooks
-....................
-
-Ensure you have ipython > 0.11 with ipython notebook installed, then run
-
-    $ ipython notebook --pylab=inline --notebook-dir=examples --script
+```
+uv add "surfx @ git+https://github.com/tiqi-group/surfx.git
+```
